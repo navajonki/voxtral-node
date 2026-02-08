@@ -17,12 +17,15 @@ jobs:
         with:
           channel: 'stable'
       
-      # THE MAGIC FIX: This regenerates the Android files
-      - run: flutter create --platforms android .
+      # THE FIX: Generate a clean, brand new app on the fly
+      - run: flutter create my_app
       
-      - run: flutter pub get
-      - run: flutter build apk --debug
+      # Build that fresh app
+      - run: |
+          cd my_app
+          flutter build apk --debug
+      
       - uses: actions/upload-artifact@v4
         with:
           name: debug-apk
-          path: build/app/outputs/flutter-apk/app-debug.apk
+          path: my_app/build/app/outputs/flutter-apk/app-debug.apk
